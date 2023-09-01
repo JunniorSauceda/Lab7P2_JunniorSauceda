@@ -1,0 +1,14 @@
+[
+	Juan,
+	chupapijas,
+	21,
+	5,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	3,
+	0.0,
+];
