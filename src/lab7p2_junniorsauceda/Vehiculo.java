@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Junnior Sauceda
  */
 public class Vehiculo {
-    private String Marca,Modelo;
+    private String Marca,Modelo,Id;
     private Color color;
     private Date Anio;
     private double Precio;
@@ -20,13 +20,24 @@ public class Vehiculo {
     public Vehiculo() {
     }
 
-    public Vehiculo(String Marca, String Modelo, Color color, Date Anio, double Precio) {
+    public Vehiculo(String Marca, String Modelo, String Id, Color color, Date Anio, double Precio) {
         this.Marca = Marca;
         this.Modelo = Modelo;
+        this.Id = Id;
         this.color = color;
         this.Anio = Anio;
         this.Precio = Precio;
     }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    
 
     public String getMarca() {
         return Marca;
