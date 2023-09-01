@@ -234,6 +234,11 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pn_AgregarVen">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="33" type="rgb"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Agregar Vendedor">
@@ -245,19 +250,24 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="Sp_Año1" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                              <Component id="Sp_Vsell" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tf_Precio1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="tf_MoneyGen" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tf_marca1" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                                  <Component id="tf_NomVend" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="607" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="361" max="32767" attributes="0"/>
+                          <Component id="bt_addVendedor" min="-2" pref="177" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="342" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -267,16 +277,18 @@
                           <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                           <Component id="jLabel7" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="tf_marca1" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="tf_NomVend" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel8" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="Sp_Año1" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="Sp_Vsell" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel9" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="tf_Precio1" min="-2" pref="40" max="-2" attributes="0"/>
-                          <EmptySpace pref="179" max="32767" attributes="0"/>
+                          <Component id="tf_MoneyGen" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="bt_addVendedor" min="-2" pref="58" max="-2" attributes="0"/>
+                          <EmptySpace pref="103" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -290,10 +302,10 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Marca:"/>
+                    <Property name="text" type="java.lang.String" value="Nombre:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="tf_marca1">
+                <Component class="javax.swing.JTextField" name="tf_NomVend">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
@@ -303,13 +315,13 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="A&#xf1;o:"/>
+                    <Property name="text" type="java.lang.String" value="Vehiculos Vendidos:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JSpinner" name="Sp_A&#xf1;o1">
+                <Component class="javax.swing.JSpinner" name="Sp_Vsell">
                   <Properties>
                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                      <SpinnerModel initial="2023" minimum="1945" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -321,14 +333,27 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Precio:"/>
+                    <Property name="text" type="java.lang.String" value="Ganancias Generadas:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="tf_Precio1">
+                <Component class="javax.swing.JTextField" name="tf_MoneyGen">
+                </Component>
+                <Component class="javax.swing.JButton" name="bt_addVendedor">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Agregar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bt_addVendedorMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pn_AgregClient">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="33" type="rgb"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Agregar Cliente">
@@ -351,6 +376,11 @@
               </Layout>
             </Container>
             <Container class="javax.swing.JPanel" name="pn_Vender">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="33" type="rgb"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Vender">
@@ -373,6 +403,11 @@
               </Layout>
             </Container>
             <Container class="javax.swing.JPanel" name="pn_Archivos">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="33" type="rgb"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Archivos">
@@ -395,6 +430,11 @@
               </Layout>
             </Container>
             <Container class="javax.swing.JPanel" name="pn_Arboles">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="33" type="rgb"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Arboles">
