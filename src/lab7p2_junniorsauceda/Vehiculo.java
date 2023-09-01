@@ -14,13 +14,13 @@ import java.util.Date;
 public class Vehiculo {
     private String Marca,Modelo,Id;
     private Color color;
-    private Date Anio;
+    private int Anio;
     private double Precio;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(String Marca, String Modelo, String Id, Color color, Date Anio, double Precio) {
+    public Vehiculo(String Marca, String Modelo, String Id, Color color, int Anio, double Precio) {
         this.Marca = Marca;
         this.Modelo = Modelo;
         this.Id = Id;
@@ -63,11 +63,11 @@ public class Vehiculo {
         this.color = color;
     }
 
-    public Date getAnio() {
+    public int getAnio() {
         return Anio;
     }
 
-    public void setAnio(Date Anio) {
+    public void setAnio(int Anio) {
         this.Anio = Anio;
     }
 
