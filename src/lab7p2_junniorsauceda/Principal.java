@@ -880,7 +880,7 @@ public class Principal extends javax.swing.JFrame {
             bw= new BufferedWriter(fw);
             for (Venta Venta1 : Ventas) {
                 bw.write("[\n\t"+ids.get(cont)+",\n\t"+Venta1.getComprador().getNombre()+
-                        ",\n\t"+Venta1.getVendedor().getNombre()+",\n\t"+Venta1.getCarro());
+                        ",\n\t"+Venta1.getVendedor().getNombre()+",\n\t"+Venta1.getCarro()+"\n];\n");
                 cont++;
             }
             bw.flush();
