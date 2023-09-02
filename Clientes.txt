@@ -16,13 +16,13 @@
 	Junnior,
 	Hola,
 	22,
-	0,
+	1,
 	3000.0,
 ];
 [
 	Junnior Sauceda,
 	asas,
 	18,
-	2,
+	3,
 	34.0,
 ];

@@ -22,6 +22,9 @@ import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 
 /**
  *
@@ -34,7 +37,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-
+        LlenarVentas();
     }
 
     /**
@@ -95,6 +98,11 @@ public class Principal extends javax.swing.JFrame {
         bt_abrirarchivo = new javax.swing.JButton();
         bt_guardarArchivo = new javax.swing.JButton();
         pn_Arboles = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jt_general = new javax.swing.JTree();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jt_diario = new javax.swing.JTree();
+        bt_CrearArchivoVentas = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -498,15 +506,42 @@ public class Principal extends javax.swing.JFrame {
 
         pn_Arboles.setBackground(new java.awt.Color(51, 51, 51));
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Tienda");
+        jt_general.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane2.setViewportView(jt_general);
+
+        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Ventas del Dia");
+        jt_diario.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane3.setViewportView(jt_diario);
+
+        bt_CrearArchivoVentas.setText("Guardar acciones del dia");
+
         javax.swing.GroupLayout pn_ArbolesLayout = new javax.swing.GroupLayout(pn_Arboles);
         pn_Arboles.setLayout(pn_ArbolesLayout);
         pn_ArbolesLayout.setHorizontalGroup(
             pn_ArbolesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
+            .addGroup(pn_ArbolesLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(bt_CrearArchivoVentas)
+                .addGap(70, 70, 70)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
         );
         pn_ArbolesLayout.setVerticalGroup(
             pn_ArbolesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(pn_ArbolesLayout.createSequentialGroup()
+                .addGroup(pn_ArbolesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_ArbolesLayout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addGroup(pn_ArbolesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pn_ArbolesLayout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(bt_CrearArchivoVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         tp_AgregarCar.addTab("Arboles", pn_Arboles);
@@ -655,8 +690,49 @@ public class Principal extends javax.swing.JFrame {
             RellenarVendedores();
 
         }
-    }//GEN-LAST:event_tp_AgregarCarStateChanged
+        if (tp_AgregarCar.getSelectedIndex() == 5) {
+            RellenarAutos();
+            RellenarCompradores();
+            RellenarVendedores();
+            int cont=0;
+            DefaultTreeModel modeloArbolgen=((DefaultTreeModel)jt_general.getModel());
+            DefaultMutableTreeNode Raizgen=(DefaultMutableTreeNode)modeloArbolgen.getRoot();
+            Raizgen.add(new DefaultMutableTreeNode("Clientes"));
+            DefaultMutableTreeNode son=((DefaultMutableTreeNode)Raizgen.getChildAt(0));
+            for (Cliente cliente : Clientestemp) {
+                son.add(new DefaultMutableTreeNode(cliente));
+            }
+            Raizgen.add(new DefaultMutableTreeNode("Vendedores"));
+            DefaultMutableTreeNode son2=((DefaultMutableTreeNode)Raizgen.getChildAt(1));
+            for (Vendedor vendedor : Estafadorestemp) {
+                son2.add(new DefaultMutableTreeNode(vendedor));
+            }
+            Raizgen.add(new DefaultMutableTreeNode("Vehiculos"));
+            DefaultMutableTreeNode son3=((DefaultMutableTreeNode)Raizgen.getChildAt(2));
+            for (Vehiculo vehiculo : vtemp) {
+                son3.add(new DefaultMutableTreeNode(vehiculo));
+            }
+            Raizgen.add(new DefaultMutableTreeNode("Ventas"));
+            DefaultMutableTreeNode son4=((DefaultMutableTreeNode)Raizgen.getChildAt(3));
+            for (Venta TotalVenta : TotalVentas) {
+                son4.add(new DefaultMutableTreeNode(IDS.get(cont)));
+                DefaultMutableTreeNode son5=((DefaultMutableTreeNode)son4.getChildAt(cont));
+                son5.add(new DefaultMutableTreeNode(TotalVenta));
+                cont++;
+            }
+            
+            
 
+        }
+    }//GEN-LAST:event_tp_AgregarCarStateChanged
+    public void genTreeGen(){
+        RellenarAutos();
+        RellenarCompradores();
+        RellenarVendedores();
+    }
+    public void genTreeDia(){
+        
+    }
     private void bt_VenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_VenderMouseClicked
         // TODO add your handling code here:
         File f1 = null;
@@ -695,6 +771,7 @@ public class Principal extends javax.swing.JFrame {
             v.setVendedor(Estafadorestemp.get(cb_vendedor.getSelectedIndex()));
             v.setComprador(Clientestemp.get(cb_Cliente.getSelectedIndex()));
             v.setCarro(vtemp.get(cb_Auto.getSelectedIndex()));
+            RellenarVentas(v);
             Ventas.add(v);
                     
             JOptionPane.showMessageDialog(this, "Venta realizada con Exito");
@@ -804,7 +881,68 @@ public class Principal extends javax.swing.JFrame {
         return id;
 
     }
-
+    public void LlenarVentas(){
+        File F=null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            F=new File("./VentasTotales.txt");
+            fr=new FileReader(F);
+            br= new BufferedReader(fr);
+            String linea;
+            while((linea=br.readLine())!=null){
+                String Id=br.readLine();
+                Id=Id.trim();
+                Id=Id.substring(0, Id.length()-1);
+                String Comprador=br.readLine();
+                Comprador=Comprador.trim();
+                Comprador=Comprador.substring(0, Comprador.length()-1);
+                String Vendedor=br.readLine();
+                Vendedor=Vendedor.trim();
+                Vendedor=Vendedor.substring(0, Vendedor.length()-2);
+                Cliente x=new  Cliente();
+                x.setNombre(Comprador);
+                Vendedor ven= new Vendedor();
+                ven.setNombre(Vendedor);
+                Venta sell= new Venta();
+                sell.setComprador(x);
+                sell.setVendedor(ven);
+                TotalVentas.add(sell);
+                IDS.add(Id);
+                
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error(Puede que uno de los archivos este vacio)");
+            e.printStackTrace();
+        }
+        try {
+            fr.close();
+            br.close();
+        } catch (Exception e) {
+        }
+                
+    }
+    public void RellenarVentas(Venta V){
+        File F=null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+            F=new File("./VentasTotales.txt");
+            fw=new FileWriter(F, true);
+            bw= new BufferedWriter(fw);
+            bw.write("[\n\t"+Id()+",\n\t"+V.getComprador().getNombre()+",\n\t"+V.getVendedor().getNombre()+"];\n");
+            bw.flush();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error(Puede que uno de los archivos este vacio)");
+            e.printStackTrace();
+        }
+        try {
+            fw.close();
+            bw.close();
+        } catch (Exception e) {
+        }
+                
+    }
     public void RellenarAutos() {
         File f1 = null;
         FileWriter fw = null;
@@ -1037,6 +1175,8 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Vendedor> Estafadorestemp = new ArrayList<>();
     ArrayList<Cliente> Clientestemp = new ArrayList<>();
     ArrayList<Venta> Ventas = new ArrayList<>();
+    ArrayList<Venta> TotalVentas = new ArrayList<>();
+    ArrayList<String> IDS = new ArrayList<>();
     String abc = "abcdefghijklmnopqrstuvwxyz";
 
 
@@ -1047,6 +1187,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner Sp_Vsell;
     private javax.swing.JButton bt_AgregarCar;
     private javax.swing.JButton bt_AgregarCliente;
+    private javax.swing.JButton bt_CrearArchivoVentas;
     private javax.swing.JButton bt_Vender;
     private javax.swing.JButton bt_abrirarchivo;
     private javax.swing.JButton bt_addVendedor;
@@ -1074,6 +1215,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTree jt_diario;
+    private javax.swing.JTree jt_general;
     private javax.swing.JPanel pn_AgregClient;
     private javax.swing.JPanel pn_AgregarCar;
     private javax.swing.JPanel pn_AgregarVen;

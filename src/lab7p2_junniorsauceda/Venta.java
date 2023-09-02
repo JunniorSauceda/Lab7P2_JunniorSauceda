@@ -54,6 +54,11 @@ public class Venta {
     public void setCoste(double Coste) {
         this.Coste = Coste;
     }
+
+    @Override
+    public String toString() {
+        return "Comprador: "+comprador.getNombre()+" Vendedor:"+vendedor.getNombre();
+    }
     
     
     
