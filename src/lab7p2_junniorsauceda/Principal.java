@@ -19,7 +19,9 @@ import java.util.logging.Logger;
 import javax.crypto.AEADBadTagException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -87,6 +89,11 @@ public class Principal extends javax.swing.JFrame {
         cb_Auto = new javax.swing.JComboBox<>();
         bt_Vender = new javax.swing.JButton();
         pn_Archivos = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ta_1 = new javax.swing.JTextArea();
+        bt_abrirarchivo = new javax.swing.JButton();
+        bt_guardarArchivo = new javax.swing.JButton();
         pn_Arboles = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -433,15 +440,58 @@ public class Principal extends javax.swing.JFrame {
 
         pn_Archivos.setBackground(new java.awt.Color(51, 51, 51));
 
+        jLabel18.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+
+        ta_1.setColumns(20);
+        ta_1.setRows(5);
+        jScrollPane1.setViewportView(ta_1);
+
+        bt_abrirarchivo.setText("Abrir Archivo");
+        bt_abrirarchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_abrirarchivoMouseClicked(evt);
+            }
+        });
+
+        bt_guardarArchivo.setText("Guardar Archivo");
+        bt_guardarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_guardarArchivoMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_ArchivosLayout = new javax.swing.GroupLayout(pn_Archivos);
         pn_Archivos.setLayout(pn_ArchivosLayout);
         pn_ArchivosLayout.setHorizontalGroup(
             pn_ArchivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
+            .addGroup(pn_ArchivosLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
+                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(pn_ArchivosLayout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addComponent(bt_abrirarchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_guardarArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(144, 144, 144))
         );
         pn_ArchivosLayout.setVerticalGroup(
             pn_ArchivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(pn_ArchivosLayout.createSequentialGroup()
+                .addGroup(pn_ArchivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_ArchivosLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_ArchivosLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(pn_ArchivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_abrirarchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_guardarArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         tp_AgregarCar.addTab("Archivos", pn_Archivos);
@@ -641,13 +691,87 @@ public class Principal extends javax.swing.JFrame {
             bw.flush();
             fw.close();
             bw.close();
-            
+            Venta v= new Venta();
+            v.setVendedor(Estafadorestemp.get(cb_vendedor.getSelectedIndex()));
+            v.setComprador(Clientestemp.get(cb_Cliente.getSelectedIndex()));
+            v.setCarro(vtemp.get(cb_Auto.getSelectedIndex()));
+            Ventas.add(v);
+                    
+            JOptionPane.showMessageDialog(this, "Venta realizada con Exito");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error");
             e.printStackTrace();
         }
     }//GEN-LAST:event_bt_VenderMouseClicked
+
+    private void bt_abrirarchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abrirarchivoMouseClicked
+        // TODO add your handling code here:
+        File fichero = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        ta_1.setText("");
+        try {
+            jfc = new JFileChooser("./");
+            FileNameExtensionFilter filtro = 
+                    new FileNameExtensionFilter(
+                            "Archivos de Texto", "txt");
+            jfc.setFileFilter(filtro);            
+            int seleccion = jfc.showOpenDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION)
+            {
+               fichero = jfc.getSelectedFile();
+               fr = new FileReader(fichero);
+               br=new BufferedReader(fr);
+               String linea;
+               ta_1.setText("");
+               while(  (linea=br.readLine()) !=null  ){
+                   
+                    ta_1.append(linea);
+                    ta_1.append("\n");
+                }
+            } //fin if
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            br.close();
+            fr.close();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_bt_abrirarchivoMouseClicked
+
+    private void bt_guardarArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_guardarArchivoMouseClicked
+        // TODO add your handling code here:
+         
+              
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+             try {
+                 
+                  File fichero=null;
+                
+                    fichero = jfc.getSelectedFile();
+                                             
+                fw = new FileWriter(fichero,false);
+                bw = new BufferedWriter(fw);
+                bw.write(ta_1.getText());
+                ta_1.setText("");
+                bw.flush();         
+                JOptionPane.showMessageDialog(this, 
+                        "Archivo guardado exitosamente");  
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                    bw.close();
+                    fw.close();
+                } catch (Exception e) {
+           }
+        
+    }//GEN-LAST:event_bt_guardarArchivoMouseClicked
     public void ReescribirClientes() {
         File f = null;
         BufferedWriter bw=null;
@@ -904,6 +1028,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
+    JFileChooser jfc=new JFileChooser();
     Random ran = new Random();
     ArrayList<Vehiculo> v = new ArrayList<>();
     ArrayList<Vendedor> Estafadores = new ArrayList<>();
@@ -923,7 +1048,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_AgregarCar;
     private javax.swing.JButton bt_AgregarCliente;
     private javax.swing.JButton bt_Vender;
+    private javax.swing.JButton bt_abrirarchivo;
     private javax.swing.JButton bt_addVendedor;
+    private javax.swing.JButton bt_guardarArchivo;
     private javax.swing.JComboBox<String> cb_Auto;
     private javax.swing.JComboBox<String> cb_Cliente;
     private javax.swing.JComboBox<String> cb_vendedor;
@@ -936,6 +1063,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -945,12 +1073,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pn_AgregClient;
     private javax.swing.JPanel pn_AgregarCar;
     private javax.swing.JPanel pn_AgregarVen;
     private javax.swing.JPanel pn_Arboles;
     private javax.swing.JPanel pn_Archivos;
     private javax.swing.JPanel pn_Vender;
+    private javax.swing.JTextArea ta_1;
     private javax.swing.JTextField tf_Color;
     private javax.swing.JTextField tf_Modelo;
     private javax.swing.JTextField tf_MoneyGen;
