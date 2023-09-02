@@ -5,12 +5,19 @@
 package lab7p2_junniorsauceda;
 
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.AEADBadTagException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
@@ -25,6 +32,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+
     }
 
     /**
@@ -47,9 +55,9 @@ public class Principal extends javax.swing.JFrame {
         tf_Precio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        bt_Color = new javax.swing.JButton();
         Sp_Año = new javax.swing.JSpinner();
         bt_AgregarCar = new javax.swing.JButton();
+        tf_Color = new javax.swing.JTextField();
         pn_AgregarVen = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         tf_NomVend = new javax.swing.JTextField();
@@ -71,6 +79,13 @@ public class Principal extends javax.swing.JFrame {
         tf_Sueldo = new javax.swing.JTextField();
         bt_AgregarCliente = new javax.swing.JButton();
         pn_Vender = new javax.swing.JPanel();
+        cb_vendedor = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        cb_Cliente = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
+        cb_Auto = new javax.swing.JComboBox<>();
+        bt_Vender = new javax.swing.JButton();
         pn_Archivos = new javax.swing.JPanel();
         pn_Arboles = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -82,6 +97,11 @@ public class Principal extends javax.swing.JFrame {
 
         tp_AgregarCar.setBackground(new java.awt.Color(153, 255, 102));
         tp_AgregarCar.setForeground(new java.awt.Color(0, 0, 0));
+        tp_AgregarCar.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tp_AgregarCarStateChanged(evt);
+            }
+        });
 
         pn_AgregarCar.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -105,16 +125,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(204, 204, 204));
         jLabel6.setText("Color:");
 
-        bt_Color.setBackground(new java.awt.Color(255, 255, 255));
-        bt_Color.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_ColorMouseClicked(evt);
-            }
-        });
-
         Sp_Año.setModel(new javax.swing.SpinnerNumberModel(2023, 1945, null, 1));
 
-        bt_AgregarCar.setForeground(new java.awt.Color(255, 255, 255));
+        bt_AgregarCar.setForeground(new java.awt.Color(0, 0, 0));
         bt_AgregarCar.setText("Agregar Vehiculo");
         bt_AgregarCar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -139,9 +152,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(pn_AgregarCarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(bt_Color, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Sp_Año, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
-                .addGap(126, 126, 126))
+                    .addComponent(Sp_Año, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(tf_Color))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pn_AgregarCarLayout.createSequentialGroup()
                 .addGap(246, 246, 246)
                 .addComponent(bt_AgregarCar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,9 +178,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pn_AgregarCarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bt_Color, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tf_Modelo, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                .addGroup(pn_AgregarCarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tf_Modelo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_Color, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -349,15 +362,71 @@ public class Principal extends javax.swing.JFrame {
 
         pn_Vender.setBackground(new java.awt.Color(51, 51, 51));
 
+        jLabel15.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Vendedor:");
+
+        jLabel16.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Comprador:");
+
+        jLabel17.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Seleccione el Vehiculo:");
+
+        bt_Vender.setText("Registrar Venta");
+        bt_Vender.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_VenderMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_VenderLayout = new javax.swing.GroupLayout(pn_Vender);
         pn_Vender.setLayout(pn_VenderLayout);
         pn_VenderLayout.setHorizontalGroup(
             pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
+            .addGroup(pn_VenderLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_VenderLayout.createSequentialGroup()
+                        .addGroup(pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(cb_Auto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pn_VenderLayout.createSequentialGroup()
+                        .addGroup(pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(cb_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                        .addGroup(pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(cb_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(65, 65, 65))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_VenderLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_Vender, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(314, 314, 314))
         );
         pn_VenderLayout.setVerticalGroup(
             pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(pn_VenderLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(pn_VenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pn_VenderLayout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(18, 18, 18)
+                        .addComponent(cb_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                    .addGroup(pn_VenderLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(18, 18, 18)
+                        .addComponent(cb_vendedor)))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel17)
+                .addGap(18, 18, 18)
+                .addComponent(cb_Auto, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addGap(61, 61, 61)
+                .addComponent(bt_Vender, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(121, 121, 121))
         );
 
         tp_AgregarCar.addTab("Vender", pn_Vender);
@@ -413,11 +482,6 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_ColorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_ColorMouseClicked
-        // TODO add your handling code here:
-        bt_Color.setBackground(JColorChooser.showDialog(this, "Seleccione el color del Vehiculo", Color.yellow));
-    }//GEN-LAST:event_bt_ColorMouseClicked
-
     private void bt_AgregarCarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_AgregarCarMouseClicked
         // TODO add your handling code here:
         FileWriter fw = null;
@@ -428,19 +492,19 @@ public class Principal extends javax.swing.JFrame {
             String modelo = tf_Modelo.getText();
             int precio = Integer.parseInt(tf_Precio.getText());
             int año = Integer.parseInt(Sp_Año.getValue().toString());
-            Color color = bt_Color.getBackground();
-            Vehiculo x = new Vehiculo(marca, modelo, modelo, color, año, precio);
+            String Color = tf_Color.getText();
+            Vehiculo x = new Vehiculo(marca, modelo, modelo, Color, año, precio);
             v.add(x);
             Archivocar = new File("./Carros.txt");
             fw = new FileWriter(Archivocar, true);
             bw = new BufferedWriter(fw);
-            bw.write("[\n\t" + marca + ",\n\t" + modelo + ",\n\t" + año + ",\n\t" + precio + ",\n];\n");
+            bw.write("[\n\t" + marca + ",\n\t" + modelo + ",\n\t" + Color + ",\n\t" + año + ",\n\t" + precio + ",\n];\n");
             bw.flush();
             tf_marca.setText("");
             tf_Modelo.setText("");
             tf_Precio.setText("");
             Sp_Año.setValue(2023);
-            bt_Color.setBackground(Color.WHITE);
+            tf_Color.setText("");
 
             JOptionPane.showMessageDialog(this, "Agregado Exitosamente");
         } catch (Exception e) {
@@ -533,8 +597,277 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_AgregarClienteMouseClicked
 
-    public String id() {
-        return "";
+    private void tp_AgregarCarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tp_AgregarCarStateChanged
+        // TODO add your handling code here:
+        if (tp_AgregarCar.getSelectedIndex() == 3) {
+            RellenarAutos();
+            RellenarCompradores();
+            RellenarVendedores();
+
+        }
+    }//GEN-LAST:event_tp_AgregarCarStateChanged
+
+    private void bt_VenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_VenderMouseClicked
+        // TODO add your handling code here:
+        File f1 = null;
+        File f2 = null;
+        File f3 = null;
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        try {
+            f2 = new File("./Vendedores.txt");
+            f3 = new File("./Clientes.txt");
+            fw = new FileWriter(f3,false);
+            bw= new BufferedWriter(fw);
+            Clientestemp.get(cb_Cliente.getSelectedIndex()).setCarros
+            ((Clientestemp.get(cb_Cliente.getSelectedIndex()).getCarros())+1);
+            //bw.write("[\n\t" + nom + ",\n\t" + prof + ",\n\t" + edad + ",\n\t" + compras + ",\n\t" + Sueldo + ",\n];\n");
+            for (Cliente cliente : Clientestemp) {
+                bw.write("[\n\t" + cliente.getNombre() + ",\n\t" + cliente.getProfesion() + ",\n\t" + cliente.getEdad() + ",\n\t" + cliente.getCarros() + ",\n\t" + cliente.getSueldo() + ",\n];\n");
+            }
+            bw.flush();
+            fw.close();
+            bw.close();
+            fw=new FileWriter(f2,false);
+            bw=new BufferedWriter(fw);
+            Estafadorestemp.get(cb_vendedor.getSelectedIndex()).setCantidad
+            (Estafadorestemp.get(cb_vendedor.getSelectedIndex()).getCantidad()+1);
+            Estafadorestemp.get(cb_vendedor.getSelectedIndex()).setMoney(Estafadorestemp.get
+            (cb_vendedor.getSelectedIndex()).getMoney()+vtemp.get(cb_Auto.getSelectedIndex()).getPrecio());
+            //bw.write("[\n\t" + nom + ",\n\t" + ventas + ",\n\t" + ganancias + ",\n];\n");
+            for (Vendedor vendedor : Estafadorestemp) {
+                bw.write("[\n\t" + vendedor.getNombre() + ",\n\t" + vendedor.getCantidad() + ",\n\t" + vendedor.getMoney() + ",\n];\n");
+            }
+            bw.flush();
+            fw.close();
+            bw.close();
+            
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_bt_VenderMouseClicked
+    public void ReescribirClientes() {
+        File f = null;
+        BufferedWriter bw=null;
+        FileWriter fw=null;
+        try {
+            f= new File("./Clientes");
+            fw= new FileWriter(f);
+            bw=new BufferedWriter(fw);
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error");
+            e.printStackTrace();
+        }
+    }
+
+    public String Id() {
+        String id = "";
+        for (int i = 0; i < 4; i++) {
+            id += ran.nextInt(9);
+        }
+        for (int i = 0; i < 4; i++) {
+            int a = ran.nextInt(abc.length());
+            if (a >= 0) {
+                id += abc.charAt(a);
+            } else {
+                id += abc.charAt((a + 1));
+            }
+        }
+        return id;
+
+    }
+
+    public void RellenarAutos() {
+        File f1 = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+//            bw.write("[\n\t" + marca + ",\n\t" + modelo + ",\n\t" + Color + ",\n\t" + año + ",\n\t" + precio + ",\n];\n");
+
+            f1 = new File("./Carros.txt");
+
+            if (f1.exists()) {
+                DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+                fr = new FileReader(f1);
+                br = new BufferedReader(fr);
+                String linea;
+                while (((linea = br.readLine()) != null)) {
+                    String marca = br.readLine();
+                    if (marca != null) {
+                        marca = marca.trim();
+                        marca = marca.substring(0, marca.length() - 1);
+
+                        String model = br.readLine();
+                        model = model.trim();
+                        model = model.substring(0, model.length() - 1);
+
+                        String Color = br.readLine();
+                        Color = Color.trim();
+                        Color = Color.substring(0, Color.length() - 1);
+
+                        String temp = br.readLine();
+                        temp = temp.trim();
+                        temp = temp.substring(0, temp.length() - 1);
+                        String ano = br.readLine();
+                        ano = ano.trim();
+                        ano = ano.substring(0, ano.length() - 1);
+
+                        int año = Integer.parseInt(ano);
+
+                        String precio = br.readLine();
+                        precio = precio.trim();
+                        precio = precio.substring(0, precio.length() - 1);
+
+                        double Price = Double.parseDouble(precio);
+
+                        Vehiculo ve = new Vehiculo(marca, model, ano, temp, año, Price);
+                        vtemp.add(ve);
+                        modelo.addElement(ve);
+                    }
+                }
+                cb_Auto.setModel(modelo);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error(Puede que uno de los archivos este vacio)");
+            e.printStackTrace();
+        }
+        try {
+
+            fr.close();
+            br.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error");
+            e.printStackTrace();
+        }
+    }
+
+    public void RellenarVendedores() {
+
+        File f2 = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        f2 = new File("./Vendedores.txt");
+
+        //bw.write("[\n\t" + nom + ",\n\t" + ventas + ",\n\t" + ganancias + ",\n];\n");
+        if (f2.exists()) {
+
+            try {
+                DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+                fr = new FileReader(f2);
+                br = new BufferedReader(fr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    String nombre = br.readLine();
+                    nombre = nombre.trim();
+                    nombre = nombre.substring(0, nombre.length() - 1);
+
+                    String Ventas = br.readLine();
+                    Ventas = Ventas.trim();
+                    Ventas = Ventas.substring(0, Ventas.length() - 1);
+
+                    int cant = Integer.parseInt(Ventas);
+                    String money = br.readLine();
+                    money = money.trim();
+                    money = money.substring(0, money.length() - 1);
+
+                    double ganacias = Double.parseDouble(money);
+                    String temp = br.readLine();
+                    Vendedor Vend = new Vendedor(nombre, cant, ganacias);
+                    modelo.addElement(Vend);
+                    Estafadorestemp.add(Vend);
+                }
+                cb_vendedor.setModel(modelo);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error");
+                e.printStackTrace();
+            }
+            try {
+
+                fr.close();
+                br.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void RellenarCompradores() {
+        File f3 = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+
+            f3 = new File("./Clientes.txt");
+            if (f3.exists()) {
+//bw.write("[\n\t" + nom + ",\n\t" + prof + ",\n\t" + edad + ",\n\t" + compras + ",\n\t" + Sueldo + ",\n];\n");
+
+                try {
+                    DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+                    fr = new FileReader(f3);
+                    br = new BufferedReader(fr);
+                    String linea;
+                    while ((linea = br.readLine()) != null) {
+                        String nombre = br.readLine();
+                        if (nombre != null) {
+                            nombre = nombre.trim();
+                            nombre = nombre.substring(0, nombre.length() - 1);
+
+                            String temp = br.readLine();
+                            temp = temp.trim();
+                            temp = temp.substring(0, temp.length() - 1);
+
+                            String Age = br.readLine();
+                            Age = Age.trim();
+                            Age = Age.substring(0, Age.length() - 1);
+
+                            int edad = Integer.parseInt(Age);
+                            String Profe = br.readLine();
+                            Profe = Profe.trim();
+                            Profe = Profe.substring(0, Profe.length() - 1);
+
+                            String Cantcar = br.readLine();
+                            Cantcar = Cantcar.trim();
+                            Cantcar = Cantcar.substring(0, Cantcar.length() - 1);
+
+                            int comprados = Integer.parseInt(Profe);
+                            String Sueldodisp = br.readLine();
+                            Sueldodisp = Sueldodisp.trim();
+                            Sueldodisp = Sueldodisp.substring(0, Sueldodisp.length() - 1);
+
+                            double Disp = Double.parseDouble(Cantcar);
+                            Cliente c = new Cliente(nombre, temp, edad, comprados, Disp);
+                            modelo.addElement(c);
+                            Clientestemp.add(c);
+                        }
+                    }
+                    cb_Cliente.setModel(modelo);
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Error");
+                    e.printStackTrace();
+                }
+
+            }
+        } catch (Exception e) {
+        }
+        //            bw.write("[\n\t" + nom + ",\n\t" + prof + ",\n\t" + edad + ",\n\t" + compras + ",\n\t" + Sueldo + ",\n];\n");
+        try {
+            fr.close();
+            br.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -575,7 +908,12 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Vehiculo> v = new ArrayList<>();
     ArrayList<Vendedor> Estafadores = new ArrayList<>();
     ArrayList<Cliente> Clientes = new ArrayList<>();
-    ArrayList<Venta> ventas = new ArrayList<>();
+    ArrayList<Vehiculo> vtemp = new ArrayList<>();
+    ArrayList<Vendedor> Estafadorestemp = new ArrayList<>();
+    ArrayList<Cliente> Clientestemp = new ArrayList<>();
+    ArrayList<Venta> Ventas = new ArrayList<>();
+    String abc = "abcdefghijklmnopqrstuvwxyz";
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Sp_Año;
@@ -584,14 +922,20 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner Sp_Vsell;
     private javax.swing.JButton bt_AgregarCar;
     private javax.swing.JButton bt_AgregarCliente;
-    private javax.swing.JButton bt_Color;
+    private javax.swing.JButton bt_Vender;
     private javax.swing.JButton bt_addVendedor;
+    private javax.swing.JComboBox<String> cb_Auto;
+    private javax.swing.JComboBox<String> cb_Cliente;
+    private javax.swing.JComboBox<String> cb_vendedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -607,6 +951,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pn_Arboles;
     private javax.swing.JPanel pn_Archivos;
     private javax.swing.JPanel pn_Vender;
+    private javax.swing.JTextField tf_Color;
     private javax.swing.JTextField tf_Modelo;
     private javax.swing.JTextField tf_MoneyGen;
     private javax.swing.JTextField tf_NomVend;

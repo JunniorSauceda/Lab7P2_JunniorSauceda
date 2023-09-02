@@ -1,12 +1,15 @@
+
 [
 	Ford,
-	Focus,
-	2023,
-	55000,
+	focus,
+	Negro,
+	2014,
+	12000,
 ];
 [
-	Hola,
-	Adios,
-	2003,
-	23000,
+	Toyota,
+	corrolla,
+	Gris,
+	2011,
+	150000,
 ];
