@@ -738,6 +738,7 @@ public class Principal extends javax.swing.JFrame {
                 cont2++;
             }
             modeloArboldia.reload();
+            jt_diario.setModel(modeloArboldia);
 
         }
     }//GEN-LAST:event_tp_AgregarCarStateChanged

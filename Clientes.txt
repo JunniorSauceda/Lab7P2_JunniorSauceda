@@ -2,6 +2,174 @@
 	Juan,
 	chupapijas,
 	21,
+	9,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	8,
+	0.0,
+];
+[
+	Junnior,
+	Hola,
+	22,
+	1,
+	3000.0,
+];
+[
+	Junnior Sauceda,
+	asas,
+	18,
+	5,
+	34.0,
+];
+[
+	Juan,
+	chupapijas,
+	21,
+	7,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	8,
+	0.0,
+];
+[
+	Junnior,
+	Hola,
+	22,
+	1,
+	3000.0,
+];
+[
+	Junnior Sauceda,
+	asas,
+	18,
+	3,
+	34.0,
+];
+[
+	Juan,
+	chupapijas,
+	21,
+	8,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	6,
+	0.0,
+];
+[
+	Junnior,
+	Hola,
+	22,
+	1,
+	3000.0,
+];
+[
+	Junnior Sauceda,
+	asas,
+	18,
+	3,
+	34.0,
+];
+[
+	Juan,
+	chupapijas,
+	21,
+	7,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	7,
+	0.0,
+];
+[
+	Junnior,
+	Hola,
+	22,
+	1,
+	3000.0,
+];
+[
+	Junnior Sauceda,
+	asas,
+	18,
+	3,
+	34.0,
+];
+[
+	Juan,
+	chupapijas,
+	21,
+	8,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	6,
+	0.0,
+];
+[
+	Junnior,
+	Hola,
+	22,
+	1,
+	3000.0,
+];
+[
+	Junnior Sauceda,
+	asas,
+	18,
+	3,
+	34.0,
+];
+[
+	Juan,
+	chupapijas,
+	21,
+	7,
+	12000.0,
+];
+[
+	hermenejildo,
+	no,
+	20,
+	7,
+	0.0,
+];
+[
+	Junnior,
+	Hola,
+	22,
+	1,
+	3000.0,
+];
+[
+	Junnior Sauceda,
+	asas,
+	18,
+	3,
+	34.0,
+];
+[
+	Juan,
+	chupapijas,
+	21,
 	8,
 	12000.0,
 ];
