@@ -785,8 +785,8 @@
                           <Component id="jScrollPane2" min="-2" pref="293" max="-2" attributes="0"/>
                           <EmptySpace pref="37" max="32767" attributes="0"/>
                           <Component id="bt_CrearArchivoVentas" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                          <Component id="jScrollPane3" min="-2" pref="242" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="jScrollPane3" min="-2" pref="280" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -849,6 +849,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Guardar acciones del dia"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bt_CrearArchivoVentasMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

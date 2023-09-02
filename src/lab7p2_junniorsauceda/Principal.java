@@ -515,6 +515,11 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jt_diario);
 
         bt_CrearArchivoVentas.setText("Guardar acciones del dia");
+        bt_CrearArchivoVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_CrearArchivoVentasMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_ArbolesLayout = new javax.swing.GroupLayout(pn_Arboles);
         pn_Arboles.setLayout(pn_ArbolesLayout);
@@ -525,8 +530,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(bt_CrearArchivoVentas)
-                .addGap(70, 70, 70)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
         );
         pn_ArbolesLayout.setVerticalGroup(
@@ -695,7 +700,7 @@ public class Principal extends javax.swing.JFrame {
             RellenarCompradores();
             RellenarVendedores();
             int cont=0;
-            DefaultTreeModel modeloArbolgen=((DefaultTreeModel)jt_general.getModel());
+            DefaultTreeModel modeloArbolgen=new DefaultTreeModel(new DefaultMutableTreeNode("Admin"));
             DefaultMutableTreeNode Raizgen=(DefaultMutableTreeNode)modeloArbolgen.getRoot();
             Raizgen.add(new DefaultMutableTreeNode("Clientes"));
             DefaultMutableTreeNode son=((DefaultMutableTreeNode)Raizgen.getChildAt(0));
@@ -721,7 +726,18 @@ public class Principal extends javax.swing.JFrame {
                 cont++;
             }
             
-            
+            modeloArbolgen.reload();
+            jt_general.setModel(modeloArbolgen);
+            int cont2=0;
+            DefaultTreeModel modeloArboldia=new DefaultTreeModel(new DefaultMutableTreeNode("Ventas del Dia"));
+            DefaultMutableTreeNode Raizdia=(DefaultMutableTreeNode)modeloArboldia.getRoot();
+            for (String id : ids) {
+                Raizdia.add(new DefaultMutableTreeNode(id));
+                DefaultMutableTreeNode child=(DefaultMutableTreeNode)Raizdia.getChildAt(cont2);
+                child.add((new DefaultMutableTreeNode(Ventas.get(cont2))));
+                cont2++;
+            }
+            modeloArboldia.reload();
 
         }
     }//GEN-LAST:event_tp_AgregarCarStateChanged
@@ -849,6 +865,37 @@ public class Principal extends javax.swing.JFrame {
            }
         
     }//GEN-LAST:event_bt_guardarArchivoMouseClicked
+
+    private void bt_CrearArchivoVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_CrearArchivoVentasMouseClicked
+        // TODO add your handling code here:
+        String nombre=JOptionPane.showInputDialog(this, "Ingrese el nombre del dia:");
+        File f=null;
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        int cont=0;
+        try {
+            f=new File("./"+nombre+".txt");
+            fw= new FileWriter(f, true);
+            bw= new BufferedWriter(fw);
+            for (Venta Venta1 : Ventas) {
+                bw.write("[\n\t"+ids.get(cont)+",\n\t"+Venta1.getComprador().getNombre()+
+                        ",\n\t"+Venta1.getVendedor().getNombre()+",\n\t"+Venta1.getCarro());
+                cont++;
+            }
+            bw.flush();
+            JOptionPane.showMessageDialog(this, "Archivo guardado");
+            ids=new ArrayList<>();
+            Ventas=new ArrayList<>();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            fw.close();
+            bw.close();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_bt_CrearArchivoVentasMouseClicked
     public void ReescribirClientes() {
         File f = null;
         BufferedWriter bw=null;
@@ -930,7 +977,9 @@ public class Principal extends javax.swing.JFrame {
             F=new File("./VentasTotales.txt");
             fw=new FileWriter(F, true);
             bw= new BufferedWriter(fw);
-            bw.write("[\n\t"+Id()+",\n\t"+V.getComprador().getNombre()+",\n\t"+V.getVendedor().getNombre()+"];\n");
+            String Id=Id();
+            ids.add(Id);
+            bw.write("[\n\t"+Id+",\n\t"+V.getComprador().getNombre()+",\n\t"+V.getVendedor().getNombre()+"];\n");
             bw.flush();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error(Puede que uno de los archivos este vacio)");
@@ -1177,6 +1226,7 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Venta> Ventas = new ArrayList<>();
     ArrayList<Venta> TotalVentas = new ArrayList<>();
     ArrayList<String> IDS = new ArrayList<>();
+    ArrayList<String> ids = new ArrayList<>();
     String abc = "abcdefghijklmnopqrstuvwxyz";
 
 
